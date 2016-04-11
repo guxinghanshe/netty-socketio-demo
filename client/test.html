@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+   <script src="socket/socket.io/socket.io.js"></script>
+        <script src="js/moment.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
+    <style>
+        body { 
+            padding:20px;
+        }
+        #console {  
+            overflow: auto; 
+        }
+        .username-msg {color:orange;}
+        .connect-msg {color:green;}
+        .disconnect-msg {color:red;}
+        .send-msg {color:#888}
+    </style>
+
+</head>
+
+<body>
+    
+    <h1>Netty-socketio Demo Chat</h1>
+    
+    <br/>
+
+    <div id="console" class="well">
+    </div>
+    消息总数：<div id="msgnum">0</div>
+</body>
+
+  
+         
+<script type="text/javascript">
+        var socket =  io.connect('http://211.155.84.135:9092/live_252');///Room_Ios
+
+        socket.on('connect', function() {
+        	
+            output('<span class="connect-msg">Connected</span>');
+            
+
+
+        });
+
+        socket.on('LiveInfo', function(data) {//收到消息后，将消息总数加一
+           var num = $("#msgnum").html();
+            // $("#msgnum").html(num+'    '+data);
+            console.log(data);
+        });
+
+        socket.on('LiveFav', function(data) {//收到消息后，将消息总数加一
+           var num = $("#msgnum").html();
+           console.log(data);
+            // $("#msgnum").html(num+'    '+data);
+        });
+        socket.on('LiveIn', function(data) {//收到消息后，将消息总数加一
+           var num = $("#msgnum").html();
+           console.log(data);
+            // $("#msgnum").html(num+'    '+data);
+        });
+        socket.on('LiveBlackList', function(data) {//收到消息后，将消息总数加一
+           var num = $("#msgnum").html();
+           console.log(data);
+            // $("#msgnum").html(num+'    '+data);
+        });
+        socket.on('LiveCurrentUsers', function(data) {//收到消息后，将消息总数加一
+           var num = $("#msgnum").html();
+           console.log(data);
+            // $("#msgnum").html(num+'    '+data);
+        });
+
+
+        // socket.on('PkLiveList', function(data) {//收到消息后，将消息总数加一
+        //     var num = $("#msgnum").html();
+        //     num = parseInt(num) +1;
+        //     $("#msgnum").html(num+'    '+data);
+        // });
+        
+        socket.on('disconnect', function() {
+            output('<span class="disconnect-msg">The client has disconnected!</span>');
+        });
+        function sendDisconnect() {
+            socket.disconnect();
+        } 
+         
+        function output(message) {
+            var currentTime = "<span class='time'>" +  new Date() + "</span>";
+            var element = $("<div>" + currentTime + " " + message + "</div>");
+            $('#console').prepend(element);
+        }
+socket.emit('LiveInfo','{sbj:{"id":1000}}');
+socket.emit('LiveCurrentUsers','{sbj:{"id":1000}}');
+socket.emit('LiveBlackList','{sbj:{"id":1000}}');
+
+        // socket.emit("PkLiveList");
+        
+        
+    </script>
+</html>
